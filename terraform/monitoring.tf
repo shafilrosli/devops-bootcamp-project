@@ -10,7 +10,7 @@ resource "aws_instance" "monitoring_server" {
   subnet_id              = aws_subnet.private_subnet.id
   private_ip             = "10.0.0.7"
   vpc_security_group_ids = [aws_security_group.devops_private_sg.id]
-  key_name               = "devops-final-project"
+  key_name               = "test"
 
 iam_instance_profile = aws_iam_instance_profile.ec2_ssm_profile.name
   # Explicitly prevent public IP
