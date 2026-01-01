@@ -9,7 +9,7 @@ resource "aws_instance" "web_server" {
   ami                    = "ami-0ca10ed3edd29b728"
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public_subnet.id
-  private_ip             = "10.0.0.140"
+  private_ip             = "10.0.0.5"
   vpc_security_group_ids = [aws_security_group.devops_public_sg.id]
   key_name               = "test"
 

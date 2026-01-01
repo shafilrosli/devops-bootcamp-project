@@ -8,7 +8,7 @@ resource "aws_instance" "monitoring_server" {
   ami                    = "ami-001c7178515f44952"
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.private_subnet.id
-  private_ip             = "10.0.0.7"
+  private_ip             = "10.0.0.136"
   vpc_security_group_ids = [aws_security_group.devops_private_sg.id]
   key_name               = "test"
 
