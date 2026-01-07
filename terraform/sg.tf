@@ -2,6 +2,9 @@
 # Web Server Security Group
 # (Public)
 ################################
+################################
+# Public Web Server
+################################
 resource "aws_security_group" "devops_public_sg" {
   name        = "devops-public-sg"
   description = "Security group for public web server"
@@ -16,6 +19,15 @@ resource "aws_security_group" "devops_public_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # App Port (8080) - Public
+  ingress {
+    description = "Allow App Port 8080 from any IP"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # SSH - Allow from VPC subnet only
   ingress {
     description = "Allow SSH from VPC subnet"
@@ -23,6 +35,15 @@ resource "aws_security_group" "devops_public_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/24"]
+  }
+
+  # Node Exporter - Allow ONLY from Monitoring Server SG
+  ingress {
+    description     = "Allow Node Exporter from Monitoring Server"
+    from_port       = 9100
+    to_port         = 9100
+    protocol        = "tcp"
+    security_groups = [aws_security_group.devops_private_sg.id]
   }
 
   # Allow all outbound traffic
@@ -54,6 +75,23 @@ resource "aws_security_group" "devops_private_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/24"]
+  }
+
+  # Optional (recommended): Prometheus & Grafana internal access
+  ingress {
+    description = "Prometheus"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    description = "Grafana"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   # Allow all outbound traffic

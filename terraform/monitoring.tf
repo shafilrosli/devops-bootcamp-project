@@ -12,12 +12,10 @@ resource "aws_instance" "monitoring_server" {
   vpc_security_group_ids = [aws_security_group.devops_private_sg.id]
   key_name               = "test"
 
-iam_instance_profile = aws_iam_instance_profile.ec2_ssm_profile.name
-  # Explicitly prevent public IP
+  iam_instance_profile = aws_iam_instance_profile.ec2_ssm_profile.name
   associate_public_ip_address = false
 
   tags = {
     Name = "devops-monitoring-server"
     Role = "Monitoring"
   }
-}
